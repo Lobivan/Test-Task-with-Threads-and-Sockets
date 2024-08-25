@@ -71,7 +71,6 @@ class StringModifier {
                     num += str[i++];
                 }
                 res = str_sum_num(res, num);
-                cout << "> " << num << "\n";
             } else {
                  while (i < n && isdigit(str[i]) == false)
                     i += 2;
