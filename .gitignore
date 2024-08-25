@@ -34,3 +34,5 @@ build/*
 *.exe
 *.out
 *.app
+prog1/prog1
+prog2/prog2
