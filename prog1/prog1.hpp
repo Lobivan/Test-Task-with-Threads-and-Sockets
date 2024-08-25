@@ -48,7 +48,7 @@ class Prog1 {
             cond_var.wait(lock, [this]() { return buffer != ""; });
             if (buffer == "-1") break;
             cout << buffer << "\n";
-            int res = StringModifier::sum_of_digits(buffer);
+            string res = StringModifier::sum_of_nums_in_string(buffer);
             buffer = "";
             lock.unlock();
             cout << res << "\n";
