@@ -23,14 +23,6 @@ class Prog1 {
     int clientSocket;
     sockaddr_in serverAddress;
 
-    int socket_setup() {
-        clientSocket = socket(AF_INET, SOCK_STREAM, 0);
-        serverAddress.sin_family = AF_INET;
-        serverAddress.sin_port = htons(8080);
-        serverAddress.sin_addr.s_addr = INADDR_ANY;
-        return 0;
-    }
-
     void task1() {
         while (true) {
             cout << "Enter string of digits (-1 to exit):\n";
@@ -70,9 +62,9 @@ class Prog1 {
             string res = StringModifier::sum_of_nums_in_string(buffer);
             buffer = "";
             lock.unlock();
+
             char arr[64];
             strcpy(arr, res.c_str());
-            cout << res << "\n";
             if (send(clientSocket, arr, strlen(arr), MSG_NOSIGNAL) == -1) {
                 clientSocket = socket(AF_INET, SOCK_STREAM, 0);
                 if (connect(clientSocket, (struct sockaddr*)&serverAddress, 

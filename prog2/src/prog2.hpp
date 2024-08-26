@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -17,7 +18,7 @@ class Prog2 {
             return;
         }
         int last_five_digits = stoi(num.substr(max(0, n - 5)));
-
+        cout << last_five_digits << "\n";
         if (last_five_digits % 32 == 0)
             cout << "Data recieved: \'" << num << "\'\n";
         else
@@ -42,7 +43,7 @@ class Prog2 {
             char buffer[1024] = { 0 };
             while (recv(clientSocket, buffer, sizeof(buffer), 0) > 0) {
                 analyse(string(buffer));
-                buffer[0] = '\0';
+                memset(buffer, '\0', sizeof(buffer));
             }
         }
     }

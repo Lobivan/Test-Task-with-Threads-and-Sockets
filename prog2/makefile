@@ -1,20 +1,26 @@
 CXX = g++
 CXXFLAGS = -Wall -g -std=c++11 -pthread
 
-SRC = main.cpp
-OBJ = $(SRC:.cpp=.o)
-TARGET = prog2
+SRCDIR = src
+BUILDDIR = build
 
-all: $(TARGET) run
+SRC = $(wildcard $(SRCDIR)/*.cpp)
+OBJ = $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SRC))
+TARGET = program2
+
+all: run
+
+dir:
+	mkdir -p $(BUILDDIR)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ)
+	$(CXX) -o $(TARGET) $(OBJ)
 
-%.o: %.cpp
+$(BUILDDIR)/%.o : $(SRCDIR)/%.cpp dir
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	rm $(OBJ) $(TARGET)
+	rm -f $(OBJ) $(TARGET)
