@@ -10,6 +10,7 @@
 #include "stringModifier.hpp"
 
 #define INPUT_MAX_LEN 64
+#define EXIT_STR "-1"
 
 using namespace std;
 
@@ -24,14 +25,14 @@ class Prog1 {
     sockaddr_in serverAddress;
 
     void task1() {
+        cout << "Enter strings of digits (" << EXIT_STR << " to exit):\n";
         while (true) {
-            cout << "Enter string of digits (-1 to exit):\n";
             string str;
             getline(cin, str);
-            if (str == "-1") {
+            if (str == EXIT_STR) {
                 {
                     lock_guard<mutex> l{m};
-                    buffer = "-1";
+                    buffer = EXIT_STR;
                 }
                 cond_var.notify_one();
                 break;
@@ -54,11 +55,11 @@ class Prog1 {
         while (true) {
             unique_lock<mutex> lock{m};
             cond_var.wait(lock, [this]() { return buffer != ""; });
-            if (buffer == "-1") {
+            if (buffer == EXIT_STR) {
                 close(clientSocket);
                 break;
             }
-            cout << buffer << "\n";
+            cout << "Task2 > " << buffer << "\n";
             string res = StringModifier::sum_of_nums_in_string(buffer);
             buffer = "";
             lock.unlock();
@@ -71,7 +72,7 @@ class Prog1 {
                     sizeof(serverAddress)) < 0) {
                         cout << "Cannot connect to program2\n";
                 } else {
-                    send(clientSocket, res.c_str(), res.length(), 0);
+                    send(clientSocket, res.c_str(), res.length(), MSG_NOSIGNAL);
                 }
             }
         }

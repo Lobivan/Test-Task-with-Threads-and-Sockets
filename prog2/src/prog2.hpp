@@ -14,15 +14,17 @@ class Prog2 {
     void analyse(string num) {
         int n = num.length();
         if (n < 3) {
-            cout << "Error: Number must be greater than 99. Recieved: " << num << "\n";
+            cout << "Error: Number must be greater than 99. Recieved: " 
+                << num << "\n";
             return;
         }
+
         int last_five_digits = stoi(num.substr(max(0, n - 5)));
-        cout << last_five_digits << "\n";
         if (last_five_digits % 32 == 0)
             cout << "Data recieved: \'" << num << "\'\n";
         else
-            cout << "Error: Recieved number is not divisible by 32!\n";
+            cout << "Error: Recieved number " << num 
+                << " is not divisible by 32!\n";
     }
 
   public:
@@ -36,7 +38,7 @@ class Prog2 {
         bind(serverSocket, (struct sockaddr*)&serverAddress,
             sizeof(serverAddress));
         listen(serverSocket, 5);
-        cout << "Listening for clients, ctrl+c to exit\n";
+        cout << "Listening for clients, ctrl+c to close program\n";
         while (true) {
             int clientSocket = accept(serverSocket, nullptr, nullptr);
 
